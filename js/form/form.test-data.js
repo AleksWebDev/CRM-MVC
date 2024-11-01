@@ -1,47 +1,26 @@
-let data = [
-    {
-        nameSurename: 'Aleksandr Lavrov',
-        tel: '+7999654486',
-        email: 'lavrovfp1995@gmail.com',
-        course: 'course-html',
-    },
-
-    {
-        nameSurename: 'Dmitriy Ivanov',
-        tel: '+380677754465',
-        email: 'IvaNOV@mail.ru',
-        course: 'course-js',
-    },
-
-    {
-        nameSurename: 'Vladislav Egorov',
-        tel: '+6547239123',
-        email: 'egorov555@gmail.com',
-        course: 'course-php',
-    },
-
-    {
-        nameSurename: 'Aleksey Kirilov',
-        tel: '+79094352872',
-        email: 'kirilov98@mail.ru',
-        course: 'course-vue',
-    },
-
-    {
-        nameSurename: 'Vasiliy Klochkov',
-        tel: '+73528729094',
-        email: 'klochkov105@mail.ru',
-        course: 'course-wordpress',
+class User {
+    constructor(id, name, phone, email, course){
+        this.id = id,
+        this.name = name,
+        this.phone = phone,
+        this.email = email,
+        this.course = course
     }
-]
-
-function getRandomIndex(){
-    const randomIndex = Math.floor(Math.random() * data.length);
-    let elem = data[randomIndex];
-    return elem;
 }
 
-export {getRandomIndex};
+const testData = [
+    new User(1, 'Aleksandr Lavrov', '+380677754465', 'lavrovweb@gmail.com', 'course-html'),
+    new User(2, 'Dmitriy Olgerdov', '+79892867354', 'olegrov@mail.ru', 'course-js'),
+    new User(3, 'Aleksey Kolochkov', '+4378653472', 'Kolochkovv@gmail.com', 'course-vue'),
+    new User(4, 'Rinat Sabirov', '+9834286757', 'sabirovv@gmail.com', 'course-php'),
+    new User(5, 'Olga Lavrova', '7823498234', 'olgalavrova@mail.ru', 'course-wordpress'),
+    new User(6, 'Valeriya Ataeva', '+78345689423', 'ataeva@gmail.com', 'course-php'),
+]
+
+function getRandomUser(){
+    const rand = Math.floor(Math.random() * testData.length - 1);
+    return testData[rand];
+}
 
 
-
+export default {getRandomUser}

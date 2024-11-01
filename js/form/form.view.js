@@ -1,22 +1,55 @@
-import * as testData from './form.test-data.js';
-
-// DOM Element of Form
 const elements = {
-    formRegistration: document.getElementById('form'),
-    nameInput: document.getElementById('name'),
-    phoneInput: document.getElementById('phone'),
-    emailInput: document.getElementById('email'),
-    coursesSelect: document.getElementById('product'),
-    formGroup: document.querySelectorAll('.form-group .form-control'),
+    form: document.getElementById('form'),
+    name: document.getElementById('name'),
+    phone: document.getElementById('phone'),
+    email: document.getElementById('email'),
+    product: document.getElementById('product')
 }
 
-// Isert test data to the form's input
-function insertTestData(){
-    const randUser = testData.getRandomIndex();
-    elements.nameInput.value = randUser.nameSurename;
-    elements.phoneInput.value = '+' + parseInt(randUser.tel);
-    elements.emailInput.value  = randUser.email;
-    elements.coursesSelect.value = randUser.course;
+function getData(DB){
+
+    const form = new FormData(elements.form);
+    let id = 1;
+    
+    if(DB.length > 0){
+        const lastItem = DB[DB.length - 1];
+        id = lastItem.id + 1;
+    }else{
+        id = 1;
+    }
+
+    const date = new Date();
+    const option = {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric', 
+    }
+    const name = form.get('name');
+    const phone = form.get('phone');
+    const email = form.get('email');
+    const course = form.get('product');
+
+    const currentDate = new Intl.DateTimeFormat('ru-RU', option).format(date);
+
+    const userData = {
+        id: id,
+        name: name,
+        phone: phone,
+        email: email,
+        course: course,
+        time: currentDate,
+    }
+
+    return userData;
+
 }
 
-export {insertTestData, elements};
+
+function insertTestData(data){
+    elements.name.value = data.name;
+    elements.phone.value = data.phone;
+    elements.email.value = data.email;
+    elements.product.value = data.course;
+}
+
+export default {elements, getData, insertTestData};

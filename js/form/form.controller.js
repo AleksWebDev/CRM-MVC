@@ -1,15 +1,18 @@
-import * as view from './form.view.js';
-import * as model from '../model.js';
+import view from './form.view.js';
+import model from './../model.js';
+import testData  from './form.test-data.js';
 
 window.addEventListener('DOMContentLoaded', function(){
-    //Inserting test data to form inputs 
-    view.insertTestData();
+    const randData = testData.getRandomUser();
+    view.insertTestData(randData);
 })
 
-view.elements.formRegistration.addEventListener('submit', function(e){
+view.elements.form.addEventListener('submit', function(e){
     e.preventDefault();
-    //adding new request to array DB
-    model.addToDB();
-    //saving all request to LocalStorage
-    model.upDateLS();
+
+    const data = view.getData(model.DB);
+    model.addingRequestToDB(data);
+
+    const randData = testData.getRandomUser();
+    view.insertTestData(randData);
 })
