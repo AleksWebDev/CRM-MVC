@@ -9,6 +9,7 @@ const elements = {
 function getData(DB){
 
     const form = new FormData(elements.form);
+
     let id = 1;
     
     if(DB.length > 0){
@@ -19,25 +20,21 @@ function getData(DB){
     }
 
     const date = new Date();
-    const option = {
-        year: 'numeric',
-        month: 'numeric',
-        day: 'numeric', 
-    }
+
     const name = form.get('name');
     const phone = form.get('phone');
     const email = form.get('email');
     const course = form.get('product');
 
-    const currentDate = new Intl.DateTimeFormat('ru-RU', option).format(date);
 
     const userData = {
-        id: id,
+        id: parseInt(id),
         name: name,
-        phone: phone,
+        phone: parseInt(phone),
         email: email,
         course: course,
-        time: currentDate,
+        status: 'new',
+        time: date.toISOString(),
     }
 
     return userData;
