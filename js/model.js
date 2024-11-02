@@ -52,14 +52,51 @@ function filterRequests(filter){
     let filteredRequests;
 
     // By product on requests
-    if(filter.course !== 'all'){
+    if(filter.products == 'all'){
+        filteredRequests = [...DB];
+    }else{
         filteredRequests = DB.filter((el) => el.course === filter.products);
     }
+    
+    if(filter.status == 'all'){
+        filteredRequests = [...DB];
+    }else{
+        filteredRequests = DB.filter((el) => el.status === filter.status);
+    }
 
-    console.log(filter);
-    console.log(filteredRequests);
-    return filteredRequests;
+    return prepareRequests(filteredRequests);
+}
+
+function getRequest(){
+    return prepareRequests(DB);
 }
 
 
-export default {DB, addingRequestToDB, getRequestByID, updateRequest, changeFilter, filterRequests};
+const products = {
+    'course-html': 'Курс по верстке',
+    'course-js': 'Курс по JS',
+    'course-vue': 'Курс по Vue.js',
+    'course-php': 'Курс по PhP',
+    'course-wordpress': 'Курс по WordPress',
+}
+
+const statuses = {
+    'new': 'новая',
+    'inwork': 'в работе',
+    'complete': 'завершенная',
+}
+
+
+function prepareRequests(DB){
+    return DB.map((item) => {
+        return {
+            ...item, 
+            time: new Date(item.time).toLocaleDateString(),
+            courseName: products[item.course],
+            statusName: statuses[item.status],
+        }
+    })
+}
+
+
+export default {DB, addingRequestToDB, getRequestByID, updateRequest, changeFilter, filterRequests, getRequest};

@@ -1,23 +1,37 @@
 const elements = {
     table: document.getElementById('tbody'),
 	select: document.querySelector('#productSelect'),
+	topStatusBar: document.querySelector('#topStatusBar'),
+}
+
+function renderRequest(data){
+
+	elements.table.innerHTML = '';
+
+	data.forEach(item => {
+		elements.table.innerHTML += fillHTML(item);
+	});
 }
 
 
-function renderRequest(item){
+function fillHTML(item){
 
-    console.log(item);
+	const badges = {
+		new: 'badge-danger',
+		inwork: 'badge-warning',
+		complete: 'badge-success'
+	}
 
-    const temp = `
+    return  `
         <tr>
 			<th scope="row">${item.id}</th>
 			<td>${item.time}</td>
-			<td>${item.course}</td>
+			<td>${item.courseName}</td>
 			<td>${item.name}</td>
 			<td>${item.email}</td>
 			<td>${item.phone}</td>
 			<td>
-				<div class="badge badge-pill badge-success">${item.status}</div>
+				<div class="badge badge-pill ${badges[item.status]}">${item.statusName}</div>
 			</td>
 			<td>
 				<a href="edit.html?id=${item.id}">Редактировать</a>
@@ -25,7 +39,7 @@ function renderRequest(item){
 		</tr>
     `
 
-    elements.table.insertAdjacentHTML("beforeend", temp);
+    /* elements.table.insertAdjacentHTML("beforeend", temp); */
 }
 
 export default {elements, renderRequest};
