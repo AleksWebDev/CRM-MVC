@@ -6,19 +6,23 @@ window.addEventListener('DOMContentLoaded', function(){
     view.renderRequest(data);
     const newRequestNumber = model.countNewRequest()
     view.updateCountRequest(newRequestNumber);
+
+    const filter = model.getFilter();
+    view.updateFilter(filter);
 })
 
 view.elements.topStatusBar.addEventListener('click', function(e){
     const target = e.target.dataset.value;
     const filter = model.changeFilter('status', target);
-    const filteredRequest = model.filterRequestByStatus(filter);
+    const filteredRequest = model.filterRequest(filter);
     view.renderRequest(filteredRequest);
     view.updateTopStatusBar(target);
 })
 
 view.elements.select.addEventListener('change', function(){
     const filter = model.changeFilter('products', this.value);
-    const filteredRequests = model.filterRequestsByProducts(filter);
+    const filteredRequests = model.filterRequest(filter);
+    console.log(filteredRequests);
     view.renderRequest(filteredRequests);
 })
 
@@ -26,7 +30,7 @@ view.elements.leftStatusLinks.forEach(link => {
     link.addEventListener('click', function(e){
         const target = e.target.dataset.value;
         const filter = model.changeFilter('status', target);
-        const filteredRequest = model.filterRequestByStatus(filter);
+        const filteredRequest = model.filterRequest(filter);
 
         view.renderRequest(filteredRequest);
         view.updateTopStatusBar(target);

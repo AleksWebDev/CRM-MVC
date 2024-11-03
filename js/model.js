@@ -36,36 +36,41 @@ function updateRequest(formData){
     
 }
 
-const filter = {
-    products: 'all',
-    status: 'all',
+const filter = loadFilter();
+
+function loadFilter(){
+
+    let filter = {
+        products: 'all',
+        status: 'all',
+    }
+
+    if(localStorage.getItem('filter')){
+        filter = JSON.parse(localStorage.getItem('filter'));
+    }
+
+    return filter;
 }
 
 function changeFilter(prop, value){
     filter[prop] = value;
+    localStorage.setItem('filter', JSON.stringify(filter));
     return filter;
 }
 
-function filterRequestsByProducts(filter){
+function filterRequest(filter){
+
     let filteredRequests;
+
     //By product requests
-    if(filter.products == 'all'){
-        filteredRequests = [...DB];
-    }else{
+    if(filter.products !== 'all'){
         filteredRequests = DB.filter((el) => el.course === filter.products);
+    }else{
+        filteredRequests = [...DB];
     }
 
-    return prepareRequests(filteredRequests);
-}
-
-
-function filterRequestByStatus(filter){
-    //By status request 
-    let filteredRequests;
-
-    if(filter.status == 'all'){
-        filteredRequests = [...DB];
-    }else{
+    //By status requests
+    if(filter.status !== 'all'){
         filteredRequests = DB.filter((el) => el.status === filter.status);
     }
 
@@ -73,7 +78,9 @@ function filterRequestByStatus(filter){
 }
 
 function getRequest(){
-    return prepareRequests(DB);
+    let filteredRequests = filterRequest(filter);
+    console.log(prepareRequests(filteredRequests));
+    return prepareRequests(filteredRequests);
 }
 
 const products = {
@@ -101,10 +108,13 @@ function prepareRequests(DB){
     })
 }
 
-
 function countNewRequest(){
     const num = DB.filter((el) => el.status === 'new');
     return num.length;
 }
 
-export default {DB, addingRequestToDB, getRequestByID, updateRequest, changeFilter, filterRequestsByProducts, filterRequestByStatus, getRequest, countNewRequest};
+function getFilter(){
+    return {...filter};
+}
+
+export default {DB, addingRequestToDB, getRequestByID, updateRequest, changeFilter, getRequest, countNewRequest, filterRequest, getFilter};

@@ -18,6 +18,8 @@ function renderRequest(data){
 
 function fillHTML(item){
 
+	/* console.log(item); */
+
 	const badges = {
 		new: 'badge-danger',
 		inwork: 'badge-warning',
@@ -57,4 +59,17 @@ function updateCountRequest(num){
 	elements.badgeNew.innerText = num;
 }
 
-export default {elements, renderRequest, updateTopStatusBar, updateCountRequest};
+function updateFilter(filter){
+	//Filter product
+	elements.select.value = filter.products;
+
+	//top status bar
+	elements.topStatusBar.querySelectorAll('a').forEach((link) => {link.classList.remove('active')});
+	elements.topStatusBar.querySelector(`a[data-value="${filter.status}"]`).classList.add('active');
+
+	//Left Status Bar
+	elements.leftStatusLinks.forEach((link) => {link.classList.remove('active')});
+	elements.leftPanelNav.querySelector(`a[data-value="${filter.status}"]`).classList.add('active');
+}
+
+export default {elements, renderRequest, updateTopStatusBar, updateCountRequest, updateFilter};
