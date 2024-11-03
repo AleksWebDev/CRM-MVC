@@ -36,28 +36,33 @@ function updateRequest(formData){
     
 }
 
-
 const filter = {
     products: 'all',
     status: 'all',
 }
-
 
 function changeFilter(prop, value){
     filter[prop] = value;
     return filter;
 }
 
-function filterRequests(filter){
+function filterRequestsByProducts(filter){
     let filteredRequests;
-
-    // By product on requests
+    //By product requests
     if(filter.products == 'all'){
         filteredRequests = [...DB];
     }else{
         filteredRequests = DB.filter((el) => el.course === filter.products);
     }
-    
+
+    return prepareRequests(filteredRequests);
+}
+
+
+function filterRequestByStatus(filter){
+    //By status request 
+    let filteredRequests;
+
     if(filter.status == 'all'){
         filteredRequests = [...DB];
     }else{
@@ -70,7 +75,6 @@ function filterRequests(filter){
 function getRequest(){
     return prepareRequests(DB);
 }
-
 
 const products = {
     'course-html': 'Курс по верстке',
@@ -86,7 +90,6 @@ const statuses = {
     'complete': 'завершенная',
 }
 
-
 function prepareRequests(DB){
     return DB.map((item) => {
         return {
@@ -99,4 +102,9 @@ function prepareRequests(DB){
 }
 
 
-export default {DB, addingRequestToDB, getRequestByID, updateRequest, changeFilter, filterRequests, getRequest};
+function countNewRequest(){
+    const num = DB.filter((el) => el.status === 'new');
+    return num.length;
+}
+
+export default {DB, addingRequestToDB, getRequestByID, updateRequest, changeFilter, filterRequestsByProducts, filterRequestByStatus, getRequest, countNewRequest};

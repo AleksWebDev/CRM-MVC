@@ -18,6 +18,4 @@ view.elements.form.addEventListener('submit', function(e){
     model.updateRequest(formData);
 })
 
-
-
 init();

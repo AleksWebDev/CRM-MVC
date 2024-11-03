@@ -2,6 +2,9 @@ const elements = {
     table: document.getElementById('tbody'),
 	select: document.querySelector('#productSelect'),
 	topStatusBar: document.querySelector('#topStatusBar'),
+	leftStatusLinks: document.querySelectorAll('[data-role="left-status"]'),
+	leftPanelNav: document.querySelector('.left-panel__navigation'),
+	badgeNew: document.querySelector('#badge-new'),
 }
 
 function renderRequest(data){
@@ -12,7 +15,6 @@ function renderRequest(data){
 		elements.table.innerHTML += fillHTML(item);
 	});
 }
-
 
 function fillHTML(item){
 
@@ -38,8 +40,21 @@ function fillHTML(item){
 			</td>
 		</tr>
     `
-
-    /* elements.table.insertAdjacentHTML("beforeend", temp); */
 }
 
-export default {elements, renderRequest};
+function updateTopStatusBar(value){
+	//Top Status Bar
+	elements.topStatusBar.querySelectorAll('a').forEach((link) => {link.classList.remove('active')});
+	elements.topStatusBar.querySelector(`a[data-value="${value}"]`).classList.add('active');
+
+	//Left Status Bar
+	elements.leftStatusLinks.forEach((link) => {link.classList.remove('active')});
+	elements.leftPanelNav.querySelector(`a[data-value="${value}"]`).classList.add('active');
+
+}
+
+function updateCountRequest(num){
+	elements.badgeNew.innerText = num;
+}
+
+export default {elements, renderRequest, updateTopStatusBar, updateCountRequest};
